@@ -41,3 +41,12 @@ document.addEventListener('DOMContentLoaded', function() {
   var selects = document.querySelectorAll('select');
   M.FormSelect.init(selects);
 });
+
+// ---------------------------------------------------------
+// initialisation for collapsible on home page
+document.addEventListener('DOMContentLoaded', function() {
+  var collapsible = document.querySelectorAll('.collapsible');
+  var instances = M.Collapsible.init(collapsible);
+});
+// ---------------------------------------------------------
+// initialisation for collapsible on home page
