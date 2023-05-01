@@ -8,6 +8,7 @@ def home():
     return render_template("tasks.html")
 
 
+# +------ Categories, routes and functions ----------+
 @app.route("/categories")
 def categories():
     # when page is loaded, the variable below queries the Category table for
@@ -73,3 +74,22 @@ def delete_category(category_id):
     db.session.delete(category)
     db.session.commit()
     return redirect(url_for("categories"))
+
+
+# +------ tasks, routes and functions ----------+
+@app.route("/add_task", methods=["GET", "POST"])
+def add_task():
+    categories = list(Category.query.order_by(Category.category_name).all())
+    if request.method == "POST":
+        # variable retrieves the values entered into the add task form
+        task = Task(
+            task_name=request.form.get("task_name"),
+            task_description=request.form.get("task_description"),
+            is_urgent=bool(True if request.form.get("is_urgent") else False),
+            due_date=request.form.get("task_date"),
+            Category_id=request.form.get("category_id")
+            )
+        db.session.add(task)
+        db.session.commit()
+        return redirect(url_for("home"))
+    return render_template("add_task.html", categories=categories)

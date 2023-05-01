@@ -8,7 +8,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(25), unique=True, nullable=False)
     # nullable=False means it's a mandatory field
-    tasks = db.relationship("Task", backref="category", cascade="all, delete", lazy=True)
+    tasks = db.relationship("Task", backref="category", cascade="all, delete", lazy=True)  # noqa
 
     # all of the above info is then converted into a string ahead of output
     # by using __repr__ so that it prints properly
@@ -25,8 +25,8 @@ class Task(db.Model):
     task_description = db.Column(db.Text, nullable=False)
     is_urgent = db.Column(db.Boolean, default=False, nullable=False)
     due_date = db.Column(db.Date, nullable=False)
-    Category_id = db.Column(db.Integer, db.ForeignKey("category.id", ondelete="CASCADE"), nullable=False)
-    # CASCADE, means to repeat the same command on child/related elements, like magic!
+    Category_id = db.Column(db.Integer, db.ForeignKey("category.id", ondelete="CASCADE"), nullable=False)  # noqa
+    # CASCADE, means to repeat the same command on child/related elements, like magic!  # noqa
     # +-------------------------------------------------------------------------------+
     # full list of Column types can be found in the SQLAlchemy docs
 
