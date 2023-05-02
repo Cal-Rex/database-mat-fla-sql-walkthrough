@@ -1,15 +1,18 @@
 {% extends "base.html"%}
 {% block content %}
 
-<h3 class="light-blue-text text-darken-4 center-align">Add Task</h3>
+<h3 class="light-blue-text text-darken-4 center-align">Edit Task</h3>
 
 <div class="row card-panel grey lighten-5">
-  <form class="col s12" method="POST" action="{{ url_for('add_task') }}">
+  <!-- the link for the for the form action MUST match the link -->
+  <!-- used for the button that instigated the load of this form -->
+  <!-- established variables included -->
+  <form class="col s12" method="POST" action="{{ url_for('edit_task', task_id=task.id) }}">
     <!-- task name -->
     <div class="row">
       <div class="input-field col s12">
         <i class="fas fa-pencil-alt prefix light-blue-text text-darken-4"></i>
-        <input placeholder="enter a name" id="task_name" name="task_name" minlength="3" maxlength="50" type="text"
+        <input placeholder="enter a name" id="task_name" name="task_name" minlength="3" maxlength="50" type="text" value="{{ task.task_name }}"
           class="validate">
         <label for="task_name">Task Name</label>
       </div>
@@ -19,7 +22,7 @@
       <div class="input-field col s12">
         <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
         <textarea placeholder="enter a description" id="task_description" name="task_description" minlength="0"
-          maxlength="200" type="text" class="materialize-textarea validate" required></textarea>
+          maxlength="200" type="text" class="materialize-textarea validate" required>{{ task.task_description }}</textarea>
         <label for="task_description">Task Description</label>
       </div>
     </div>
@@ -27,7 +30,7 @@
     <div class="row">
       <div class="input-field col s12">
         <i class="fas fa-calendar-alt prefix light-blue-text text-darken-4"></i>
-        <input id="task_date" name="task_date" type="text" class="datepicker">
+        <input id="task_date" name="task_date" type="text" value="{{ task.due_date.strftime('%d %B, %Y') }}" class="datepicker">
         <label for="task_date">Due Date</label>
       </div>
     </div>
@@ -37,7 +40,11 @@
         <div class="switch">
           <i class="fas fa-exclamation-circle prefix light-blue-text text-darken-4"></i>
           <label for="is_urgent">
+            {% if task.is_urgent == True %}
+            <input id="is_urgent" name="is_urgent" type="checkbox" checked>
+            {% else %}
             <input id="is_urgent" name="is_urgent" type="checkbox">
+            {% endif %}
             <span class="lever"></span>
             Is Urgent?
           </label>
@@ -51,7 +58,11 @@
         <select id="category_id" name="category_id" class="validate" required>
           <option value="" disabled selected>Choose category</option>
           {% for category in categories %}
-          <option value="{{ category.id }}">{{ category.category_name }}</option>
+            {% if category == task.category %}
+              <option value="{{ category.id }}" selected>{{ category.category_name }}</option>
+            {% else %}
+              <option value="{{ category.id }}">{{ category.category_name }}</option>
+            {% endif %}
           {% endfor %}
         </select>
         <label for="category_id">Category</label>
@@ -61,7 +72,7 @@
     <div class="row">
       <div class="col s12 center-align">
         <button type="submit" class="btn-large light-blue darken-1">
-          Add Task <i class="fas fa-plus-square right"></i>
+          Edit Task <i class="fas fa-plus-square right"></i>
         </button>
       </div>
     </div>
