@@ -11,9 +11,15 @@
 </div>
 
 <ul class="collapsible">
+    <!-- sort tasks in the for loop by adding a pipe, then -->
+    <!-- using the sort command, target the attribute of the table you -->
+    <!-- wish to sort by targeting it in quotes -->
     {% for task in tasks|sort(attribute="task_date") %}
     <li>
         <div class="collapsible-header white-text light-blue darken-4"><i class="fas fa-caret-down"></i>
+            <!-- strftime is a python directive that allows dev to display date in a custom format --> 
+            <!-- refer to documentation for full list of commands -->
+            
             <strong>{{ task.task_name }}</strong> : {{ task.due_date.strftime("%d %B, %Y") }}
             {% if task.is_urgent == True %}
             <i class="fas fa-exclamation-circle light-blue text-lighten-2"></i>

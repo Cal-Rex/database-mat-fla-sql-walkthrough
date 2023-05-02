@@ -5,6 +5,10 @@ from taskmanager.models import Category, Task
 
 @app.route("/")
 def home():
+    # call on the Task variable in model and
+    # query its table for all entries
+    # make sure to wrap it in a list so that it
+    # can be understood and used by other python functions!
     tasks = list(Task.query.order_by(Task.id).all())
     return render_template("tasks.html", tasks=tasks)
 
